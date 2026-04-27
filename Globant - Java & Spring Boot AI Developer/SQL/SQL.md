@@ -23,31 +23,86 @@
 ## 💻 Exemplos de código
 
 ```sql
+SELECT * FROM tbl_games 
+SELECT id, title FROM tbl_books;
+```
+
+* ``Select * FROM`` seleciona todos os dados da tabela
+* Seleciona os dados `id` e `title` da tabela `tbl_books`
+
+### WHERE
+
+```sql
 SELECT nome, preco FROM jogos WHERE genero = 'RPG';
 ```
 
 * Seleciona apenas os dados: ``nome,preco`` na tabela ``jogos`` onde o ``genero é RPG`` 
+
+### Order By
 
 ```sql
 SELECT * FROM tabela ORDER BY id ASC;
 ```
 
 * Seleciona todos os dados de uma tabela
-* `ORDER BY id ASC` ordena os resultados pelo ID de forma crescente
+* `ORDER BY id ASC` ordena os resultados pelo ID de forma ``crescente(ASC)``
 
-```sql
-SELECT id, title FROM tbl_books;
-```
-
-* Seleciona os dados `id` e `title` da tabela `tbl_books`
+### Ex com ORDER BY e WHERE:
 
 ```sql
 SELECT * FROM tbl_games 
 WHERE 
 	rankNumber is not null;
+ORDER BY
+	rankNumber ASC
 ```
 
 * Selecionar ``todos os dados(*)`` apenas onde o ``rankNumber`` não é ``NULL``
+* ``ODER BY`` e ordena por ``ASC(ascendente)``
+
+### Limit
+
+* Restrige número de Resultados
+
+```sql
+SELECT * FROM show LIMIT 10
+```
+
+* Vai so mostrar 10 primeiros resutlados
+
+### GROUP BY
+```sql
+SELECT brand, COUNT(*)
+FROM shoes 
+GROUP BY brand
+```
+
+### DISTINCT
+
+* Remove registros duplicados
+
+```sql
+SELECT DISTINCT brand FROM shoes;
+```
+
+### AS(alias)
+
+```sql
+SELECT name AS modelo, price AS price FROM shoes;
+```
+
+* da um ``apelido`` pra ``coluna/tabela``
+
+### IN,NOT IN,BETWEEN, LIKE, ILIKE
+
+```sql
+SELECT * FROM shoes WHERE brand IN ('Nike', 'Adidas');
+SELECT * FROM shoes WHERE price BETWEEN 300 AND 800;
+SELECT * FROM shoes WHERE brand ILIKE '%air%';
+```
+
+# Função de Agreções
+
 
 ---
 
@@ -104,7 +159,8 @@ UPDATE tbl_games SET bestWeeks = 4,bannerUrl = 'abc' WHERE id = 1; --Atualizar m
 ## 💻 Exemplo de código
 
 ```sql
-DELETE FROM jogos WHERE nome = 'Elden Ring';
+DELETE FROM tbl_games WHERE nome = 'Elden Ring';
+DELETE FROM jogos WHERE id = 3;
 ```
 
 * Remove o registro da tabela `jogos`
