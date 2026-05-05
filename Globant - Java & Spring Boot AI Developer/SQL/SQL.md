@@ -38,6 +38,28 @@ SELECT nome, preco FROM jogos WHERE genero = 'RPG';
 
 * Seleciona apenas os dados `nome` e `preco` da tabela `jogos` onde `genero` é `RPG`.
 
+```sql
+SELECT * FROM tbl_shoes WHERE gender = 'masculino' and size > 40 AND brand = 'Nike';
+```
+
+* O sql tem operadores ``logigos(and,or)``
+* Seleciona todos os dados, mas que sao ``masculinos`` e que o `size` maior que 40, que seja da ``Nike``.
+
+```sql
+SELECT * FROM tbl_shoes 
+  WHERE 
+    gender = 'masculino' 
+    AND size > 40 
+    AND brand = 'Nike' OR brand='Adidas';
+```
+
+* Nesse Exemplo ele vai atender as ``criterios do começo(masculino,>40,nike)`` mas tambem ele vai ``trazer todos os "shoes" da Adidas``
+* Pra ``Resolver`` isso é so ``deixar em parenteses``
+
+```sql
+... size > 40 AND (brand = 'Nike' OR brand='Adidas');
+```
+
 ### ORDER BY
 
 ```sql
@@ -47,7 +69,7 @@ SELECT * FROM tabela ORDER BY id ASC;
 * Seleciona todos os dados de uma tabela.
 * `ORDER BY id ASC` ordena os resultados pelo `id` em ordem crescente.
 
-### Exemplo com ORDER BY e WHERE
+#### Exemplo com ORDER BY e WHERE
 
 ```sql
 SELECT * FROM tbl_games
@@ -58,22 +80,48 @@ ORDER BY rankNumber ASC;
 * Seleciona todos os dados apenas quando `rankNumber` não é `NULL`.
 * `ORDER BY` organiza os resultados por `rankNumber` em ordem crescente.
 
-### LIMIT
-
-* Restringe a quantidade de resultados.
-
 ```sql
-SELECT * FROM show LIMIT 10;
+SELECT * FROM tbl_shoes 
+  WHERE 
+    gender = 'masculino' 
+    AND size > 40 
+    AND (brand = 'Nike' OR brand='Adidas');
+  ORDER BY
+    brand, price ASC
 ```
 
-* Mostra apenas os 10 primeiros resultados.
+* `ORDER BY` organiza os resultados por `brand` e `price` em ordem ascendente(crescente).
+
+---
+
+### DISTINCT
+
+```sql
+SELECT DISTINCT brand FROM show   
+```
+
+* O ``DISTINCT`` remove Duplicatas
+
+
+
+---
+
+### LIMIT
+
+```sql
+SELECT * FROM show 
+  ORDER BY 
+    price DESC 
+  LIMIT 10;
+```
+
+* Mostra ``apenas os 10 primeiros resultados``.
+* E mostra os mais caros
 
 ### GROUP BY
 
 ```sql
-SELECT brand, COUNT(*)
-FROM shoes
-GROUP BY brand;
+SELECT brand, COUNT(*)FROM shoes GROUP BY brand;
 ```
 
 * Agrupa os registros pela coluna `brand`.
@@ -90,24 +138,47 @@ SELECT DISTINCT brand FROM shoes;
 ### AS (alias)
 
 ```sql
-SELECT name AS modelo, price AS preco FROM shoes;
+SELECT 
+  name AS nome, 
+  price AS preco 
+FROM shoes;
 ```
 
-* Dá um apelido para colunas ou tabelas.
-* `name AS modelo` faz a coluna `name` aparecer com o nome `modelo`.
+* Dá um ``apelido`` para colunas ou tabelas.
+* `name AS nome` faz a coluna `name` aparecer como ``nome``.
 
-### IN, NOT IN, BETWEEN, LIKE, ILIKE
+### LIKE, ILIKE , IN, NOT IN, BETWEEN
+
+#### LIKE
 
 ```sql
-SELECT * FROM shoes WHERE brand IN ('Nike', 'Adidas');
-SELECT * FROM shoes WHERE price BETWEEN 300 AND 800;
-SELECT * FROM shoes WHERE brand ILIKE '%air%';
+SELECT * FROM tbl_shoes 
+  WHERE 
+    material LIKE 'Couro%' 
+
+SELECT * FROM shoes WHERE brand LIKE '%air%';
 ```
 
-* `IN` verifica se o valor está dentro de uma lista.
-* `BETWEEN` verifica se o valor está dentro de um intervalo.
-* `LIKE` faz busca por padrão.
-* `ILIKE` faz a mesma busca de `LIKE`, mas ignorando maiúsculas e minúsculas.
+* Procura por um ``material`` que contenha ``Couro`` e ``termine com qualquer coisa``
+* No ``segundo exemplo``, ele busca ``qualquer valor que contenha “air”`` em ``qualquer posição`` dentro do texto (antes, depois ou no meio)
+  * Se usar ``'%azul'``, o % permite qualquer ``coisa antes``, então serão retornados valores que ``terminam`` com "azul".
+  * Se usar ``'verde%'``, o % permite qualquer ``coisa depois``, então serão retornados valores que ``começam`` com "verde".
+
+#### IN, NOT IN
+
+```sql
+SELECT * FROM tbl_shoes 
+  WHERE 
+    brand IN ('Nike', 'Adidas' , 'Vans') 
+  AND 
+    size NOT IN ('40','38')
+  AND
+    price BETWEEN 300 AND 500
+```
+
+* O ``IN`` substitui vários ``OR``
+* O ``NOT IN`` não irá mostrar os valores(40,38)
+* O ``BETWEEN`` irá pegar os valores entre 300 e 500
 
 ---
 
@@ -125,6 +196,15 @@ SELECT MAX(release_date) AS mais_recente FROM shoes;
 * `SUM()` soma valores.
 * `MIN()` retorna o menor valor.
 * `MAX()` retorna o maior valor.
+
+```sql
+SELECT brand, COUNT(brand) AS quantity FROM shoes
+  GROUP BY brand
+```
+
+* Conta quantos tenis tem por marca
+* Obrigátorio usar o ``GROUP BY``
+* E renomeio o COUNT como quantity
 
 ---
 
